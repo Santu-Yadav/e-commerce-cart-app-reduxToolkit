@@ -7,15 +7,15 @@ import CartDisplay from "./components/CartDisplay";
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
-  align-items: center;
 `;
 
 const Header = styled.header`
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  justify-content: space-between;
+  background-color: lightblue;
+  padding-left: 30px;
+  padding-right: 10px;
 `;
 
 function App() {
@@ -26,8 +26,12 @@ function App() {
     <>
       <Container>
         <Header>
-          <h1>E-commerce cart aplication</h1>
-          <CartButton cartToggle={cartToggle} setcartToggle={setcartToggle} />
+          <h1>E-commerce</h1>
+          <CartButton
+            cartToggle={cartToggle}
+            setcartToggle={setcartToggle}
+            productData={productData}
+          />
         </Header>
 
         <Products productData={productData} setProductData={setProductData} />

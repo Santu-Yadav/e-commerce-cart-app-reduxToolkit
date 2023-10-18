@@ -1,9 +1,15 @@
 import styled from "styled-components";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import Badge from "@mui/material/Badge";
 
 const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #3498db;
   color: #fff;
-  padding: 10px 15px;
+  padding: 10px 35px;
+  margin: 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -15,12 +21,20 @@ const Button = styled.button`
   }
 `;
 
-const CartButton = ({ cartToggle, setcartToggle }) => {
+const CartButton = ({ cartToggle, setcartToggle, productData }) => {
   const handleClick = () => {
     setcartToggle(!cartToggle);
   };
 
-  return <Button onClick={handleClick}>cart</Button>;
+  const badgeContentCount = productData.finalTotalProductCount;
+
+  return (
+    <Button onClick={handleClick}>
+      <Badge badgeContent={badgeContentCount} color="error">
+        <ShoppingCartOutlinedIcon />
+      </Badge>
+    </Button>
+  );
 };
 
 export default CartButton;

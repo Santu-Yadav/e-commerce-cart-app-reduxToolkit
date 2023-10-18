@@ -2,7 +2,12 @@ import { useEffect } from "react";
 
 import styled from "styled-components";
 
-const CartDisplayContainer = styled.div``;
+const CartDisplayContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const PrdctQtyBtn = styled.button`
   width: 40px;
@@ -172,7 +177,6 @@ const CartDisplay = ({ productData, setProductData }) => {
 
   return (
     <CartDisplayContainer>
-      <hr />
       {productData.objectData.map((item) => (
         <div key={item.prodId}>
           <span>{item.prodName}</span> : $<span>{item.price}</span>
@@ -189,13 +193,12 @@ const CartDisplay = ({ productData, setProductData }) => {
           </DeleteButton>
         </div>
       ))}
-      <hr />
+
       <div>
         <StrongFont>Items In Cart</StrongFont> :
         {productData.finalTotalProductCount}
         <StrongFont1>Total Price</StrongFont1> : ${productData.finalTotalAmount}
       </div>
-      <hr />
     </CartDisplayContainer>
   );
 };

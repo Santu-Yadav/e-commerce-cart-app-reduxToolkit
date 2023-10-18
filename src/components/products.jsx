@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { useState } from "react";
 
 const ProductContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 `;
 
