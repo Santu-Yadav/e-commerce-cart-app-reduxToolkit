@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Badge from "@mui/material/Badge";
 
@@ -21,12 +23,14 @@ const Button = styled.button`
   }
 `;
 
-const CartButton = ({ cartToggle, setcartToggle, productData }) => {
+const CartButton = ({ cartToggle, setcartToggle }) => {
+  const cartOperation = useSelector((state) => state.cartOperation);
+
   const handleClick = () => {
     setcartToggle(!cartToggle);
   };
 
-  const badgeContentCount = productData.finalTotalProductCount;
+  const badgeContentCount = cartOperation.finalTotalProductCount;
 
   return (
     <Button onClick={handleClick}>

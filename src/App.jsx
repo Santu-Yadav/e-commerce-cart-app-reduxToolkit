@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-
+import { useSelector, useDispatch } from "react-redux";
 
 import styled from "styled-components";
 import Products from "./components/products";
@@ -21,7 +20,11 @@ const Header = styled.header`
 `;
 
 function App() {
-  const [productData, setProductData] = useState({});
+  const cartOperation = useSelector((state) => state.cartOperation);
+  const dispatch = useDispatch();
+
+  console.log("cartOperation #", cartOperation);
+  // const [productData, setProductData] = useState({});
   const [cartToggle, setcartToggle] = useState(true);
 
   return (
@@ -32,20 +35,15 @@ function App() {
           <CartButton
             cartToggle={cartToggle}
             setcartToggle={setcartToggle}
-            productData={productData}
+            // productData={productData}
           />
         </Header>
 
-        <Products productData={productData} setProductData={setProductData} />
+        <Products />
 
-        {Object.keys(productData).length > 0 &&
-          productData.finalTotalProductCount > 0 &&
-          cartToggle && (
-            <CartDisplay
-              productData={productData}
-              setProductData={setProductData}
-            />
-          )}
+        {/* Object.keys(productData).length > 0 &&
+          productData.finalTotalProductCount > 0 && */}
+        {cartToggle && <CartDisplay />}
       </Container>
     </>
   );

@@ -11,18 +11,38 @@ export const cartSlice = createSlice({
   initialState: initialState,
   reducers: {
     increment: (state, action) => {
-      if (state.productData.length === 0) {
+      if (state.objectData.length === 0) {
         state.objectData.push({
+          // action.payload : {price: 100, prodId:1, prodName:"product01"}
           ...action.payload,
           count: 1,
-          totalPrice: data.price,
+          totalPrice: action.payload.price,
         }),
-          (state.finalTotalAmount = data.price),
+          (state.finalTotalAmount = action.payload.price),
           (state.finalTotalProductCount = 1);
       } else {
+        const findItem = state.objectData.find(
+          (item) => item.prodId === action.payload.prodId
+        );
+        findItem.count += 1;
+        findItem.totalPrice += action.payload.price;
+        state.finalTotalAmount += action.payload.price;
+        state.finalTotalProductCount += 1;
       }
     },
 
-    decrement: () => {},
+    decrement: (state, action) => {
+      const findItem = state.objectData.find(
+        (item) => item.prodId === action.payload.prodId
+      );
+      findItem.count -= 1;
+      findItem.totalPrice -= action.payload.price;
+      state.finalTotalAmount -= action.payload.price;
+      state.finalTotalProductCount -= 1;
+    },
   },
 });
+
+export const { increment, decrement } = cartSlice.actions;
+
+export default cartSlice.reducer;

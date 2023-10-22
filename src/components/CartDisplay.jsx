@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import { increment } from "../reduxStore/slices/cartSlice";
 
 const CartDisplayContainer = styled.div`
   display: flex;
@@ -76,108 +78,54 @@ const DeleteButton = styled.button`
   }
 `;
 
-const CartDisplay = ({ productData, setProductData }) => {
-  console.log("Product Data in CartDisplay @@@@@@@@@@", productData);
+const CartDisplay = () => {
+  const cartOperation = useSelector((state) => state.cartOperation);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Check if a filter is needed
-    const filteredObjectData = productData.objectData.filter(
-      (item) => item.count === 0
-    );
-    // Only update the state if the filteredObjectData is not empty.
-    if (filteredObjectData.length !== 0) {
-      setProductData((prevProductData) => ({
-        ...prevProductData,
-        objectData: productData.objectData.filter((item) => item.count !== 0),
-      }));
-    }
-  }, [productData]);
+  // useEffect(() => {
+  //   // Check if a filter is needed
+  //   const filteredObjectData = productData.objectData.filter(
+  //     (item) => item.count === 0
+  //   );
+  //   // Only update the state if the filteredObjectData is not empty.
+  //   if (filteredObjectData.length !== 0) {
+  //     setProductData((prevProductData) => ({
+  //       ...prevProductData,
+  //       objectData: productData.objectData.filter((item) => item.count !== 0),
+  //     }));
+  //   }
+  // }, [productData]);
 
   const handleSubtraction = (e) => {
-    console.log("Product Data in CartDisplay 001#", productData);
-
-    let targetProduct = productData.objectData.find(
-      (item) => item.prodId === e.target.id
-    );
-
-    // console.log("target product %%%%%%%%%", targetProduct.count);
-
-    if (targetProduct) {
-      let prepareData = {
-        ...productData,
-        finalTotalAmount: productData.finalTotalAmount - targetProduct.price,
-        finalTotalProductCount: productData.finalTotalProductCount - 1,
-        objectData: productData.objectData.map((item) => {
-          if (item.prodId === targetProduct.prodId) {
-            return {
-              ...item,
-              count: item.count - 1,
-              totalPrice: item.totalPrice - item.price,
-            };
-          } else {
-            return {
-              ...item,
-            };
-          }
-        }),
-      };
-
-      setProductData(prepareData);
-      // }
-    }
+    dispatch(decrement(e));
   };
 
   const handleAddition = (e) => {
-    const targetProduct = productData.objectData.find(
-      (item) => item.prodId === e.target.id
-    );
-    let prepareData = {
-      ...productData,
-      finalTotalAmount: productData.finalTotalAmount + targetProduct.price,
-      finalTotalProductCount: productData.finalTotalProductCount + 1,
-      objectData: productData.objectData.map((item) => {
-        if (item.prodId === targetProduct.prodId) {
-          return {
-            ...item,
-            count: item.count + 1,
-            totalPrice: item.totalPrice + item.price,
-          };
-        } else {
-          return {
-            ...item,
-          };
-        }
-      }),
-    };
-
-    setProductData(prepareData);
+    dispatch(increment(e));
   };
 
   const handleDelete = (e) => {
-    const deletedItem = productData.objectData.filter(
-      (item) => item.prodId === e.target.id
-    );
-
-    const filterDeletedItem = productData.objectData.filter(
-      (item) => item.prodId !== e.target.id
-    );
-
-    const finalTotalAmount =
-      productData.finalTotalAmount - deletedItem[0].totalPrice;
-    const finalTotalProductCount =
-      productData.finalTotalProductCount - deletedItem[0].count;
-
-    setProductData({
-      ...productData,
-      objectData: filterDeletedItem,
-      finalTotalAmount: finalTotalAmount,
-      finalTotalProductCount: finalTotalProductCount,
-    });
+    // const deletedItem = productData.objectData.filter(
+    //   (item) => item.prodId === e.target.id
+    // );
+    // const filterDeletedItem = productData.objectData.filter(
+    //   (item) => item.prodId !== e.target.id
+    // );
+    // const finalTotalAmount =
+    //   productData.finalTotalAmount - deletedItem[0].totalPrice;
+    // const finalTotalProductCount =
+    //   productData.finalTotalProductCount - deletedItem[0].count;
+    // setProductData({
+    //   ...productData,
+    //   objectData: filterDeletedItem,
+    //   finalTotalAmount: finalTotalAmount,
+    //   finalTotalProductCount: finalTotalProductCount,
+    // });
   };
 
   return (
     <CartDisplayContainer>
-      {productData.objectData.map((item) => (
+      {cartOperation.objectData.map((item) => (
         <div key={item.prodId}>
           <span>{item.prodName}</span> : $<span>{item.price}</span>
           <PrdctQtyBtn id={item.prodId} onClick={handleSubtraction}>
@@ -196,8 +144,9 @@ const CartDisplay = ({ productData, setProductData }) => {
 
       <div>
         <StrongFont>Items In Cart</StrongFont> :
-        {productData.finalTotalProductCount}
-        <StrongFont1>Total Price</StrongFont1> : ${productData.finalTotalAmount}
+        {cartOperation.finalTotalProductCount}
+        <StrongFont1>Total Price</StrongFont1> : $
+        {cartOperation.finalTotalAmount}
       </div>
     </CartDisplayContainer>
   );

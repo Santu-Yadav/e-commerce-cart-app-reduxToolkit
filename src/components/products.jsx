@@ -1,3 +1,5 @@
+import { useSelector, useDispatch } from "react-redux";
+import { increment, decrement } from "../reduxStore/slices/cartSlice";
 import styled from "styled-components";
 
 const ProductContainer = styled.div`
@@ -56,118 +58,15 @@ const productArray = [
   { prodName: "Product03", prodId: "3", price: 500.0 },
 ];
 
-// const Products = ({ productItems, setProductItems }) => {
-const Products = ({ productData, setProductData }) => {
+const Products = () => {
+  const dispatch = useDispatch();
   //*****************************************************************************
   //*****************************************************************************
   const handleProductAdd = (data) => {
-    if (Object.keys(productData).length === 0) {
-      const objectData = [];
-      objectData.push({ ...data, count: 1, totalPrice: data.price });
-
-      const finalTotalAmount = data.price;
-      const finalTotalProductCount = 1;
-      setProductData({
-        objectData,
-        finalTotalProductCount,
-        finalTotalAmount,
-      });
-    } else {
-      // Write the logic if productData have only one entry, for an example entry with id:1,
-      const findObject = productData.objectData.find(
-        (item) => item.prodId === data.prodId
-      );
-
-      if (findObject) {
-        //existing object, then write logic here.
-        const objectData = productData.objectData.map((item) => {
-          if (item.prodId === findObject.prodId) {
-            return {
-              ...item,
-              count: item.count + 1,
-              totalPrice: item.totalPrice + data.price,
-            };
-          } else {
-            return {
-              ...item,
-            };
-          }
-        });
-
-        const finalTotalProductCount = productData.finalTotalProductCount + 1;
-        const finalTotalAmount =
-          productData.finalTotalAmount + findObject.price;
-        setProductData({
-          objectData,
-          finalTotalProductCount,
-          finalTotalAmount,
-        });
-      } else {
-        //what happens when object with id:2 comes up?
-
-        let cloneProductData = JSON.parse(JSON.stringify(productData));
-
-        cloneProductData.objectData.push({
-          ...data,
-          count: 1,
-          totalPrice: data.price,
-        });
-
-        cloneProductData.finalTotalProductCount =
-          cloneProductData.finalTotalProductCount + 1;
-
-        cloneProductData.finalTotalAmount =
-          cloneProductData.finalTotalAmount + data.price;
-
-        setProductData(cloneProductData);
-      }
-    }
+    dispatch(increment(data));
   };
-
   //*****************************************************************************
   //*****************************************************************************
-  // const [productItems, setProductItems] = useState([]);
-
-  // const [productData, setProductData] = useState({});
-  // console.log("productItems #", productItems);
-  // console.log("ProductData", productData);
-
-  // const handleProductAdd = (data) => {
-
-  //   setProductItems((prevItems) => {
-  //     const updatedItems = [...prevItems, data];
-
-  //     // Calculate updated totals
-  //     const productMap = updatedItems.reduce((acc, product) => {
-  //       const key = `${product.prodName}`;
-  //       acc[key] = acc[key] || { count: 0, totalPrice: 0, ...product };
-  //       acc[key].count += 1;
-  //       acc[key].totalPrice += product.price;
-  //       return acc;
-  //     }, {});
-
-  //     const finalTotalAmount = Object.values(productMap).reduce(
-  //       (sum, product) => sum + product.totalPrice,
-  //       0
-  //     );
-  //     const finalTotalProductCount = Object.values(productMap).reduce(
-  //       (count, product) => count + product.count,
-  //       0
-  //     );
-
-  //     console.log("Object data", productMap);
-  //     console.log("Object data_01 #", Object.values(productMap));
-  //     const updateProductMap = Object.values(productMap);
-  //     setProductData({
-  //       updateProductMap,
-  //       finalTotalProductCount,
-  //       finalTotalAmount,
-  //     });
-  //     //***
-
-  //     return updatedItems;
-  //   });
-  // };
 
   return (
     <ProductContainer>
