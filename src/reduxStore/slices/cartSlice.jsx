@@ -43,20 +43,22 @@ export const cartSlice = createSlice({
     },
 
     decrement: (state, action) => {
-      console.log("action.payload in cartSlice #", action.payload);
-      console.log(" state.objectData #", state.objectData);
       const findItem = state.objectData.find(
         (item) => item.prodId === action.payload
       );
-      console.log("findItem inside decrement #", findItem);
+
       findItem.count -= 1;
       findItem.totalPrice -= findItem.price;
       state.finalTotalAmount -= findItem.price;
       state.finalTotalProductCount -= 1;
     },
+
+    delete: (state, action) => {
+      state.objectData.filter((item) => item.count !== 0)
+    },
   },
 });
 
-export const { increment, decrement } = cartSlice.actions;
+export const { increment, decrement, delete } = cartSlice.actions;
 
 export default cartSlice.reducer;

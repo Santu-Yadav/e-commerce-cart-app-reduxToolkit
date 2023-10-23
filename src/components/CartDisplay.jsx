@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { increment, decrement } from "../reduxStore/slices/cartSlice";
+import { increment, decrement, delete } from "../reduxStore/slices/cartSlice";
 
 const CartDisplayContainer = styled.div`
   display: flex;
@@ -81,28 +81,28 @@ const CartDisplay = () => {
   const cartOperation = useSelector((state) => state.cartOperation);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   // Check if a filter is needed
-  //   const filteredObjectData = productData.objectData.filter(
-  //     (item) => item.count === 0
-  //   );
-  //   // Only update the state if the filteredObjectData is not empty.
-  //   if (filteredObjectData.length !== 0) {
-  //     setProductData((prevProductData) => ({
-  //       ...prevProductData,
-  //       objectData: productData.objectData.filter((item) => item.count !== 0),
-  //     }));
-  //   }
-  // }, [productData]);
+  useEffect(() => {
+    // Check if a filter is needed
+    const filteredObjectData = cartOperation.objectData.filter(
+      (item) => item.count === 0
+    );
+    // Only update the state if the filteredObjectData is not empty.
+    if (filteredObjectData.length !== 0) {
+      dispatch(delete)
+      // setProductData((prevProductData) => ({
+      //   ...prevProductData,
+      //   objectData: cartOperation.objectData.filter((item) => item.count !== 0),
+      // }));
+    }
+  }, [cartOperation]);
 
   const handleSubtraction = (e) => {
     console.log("e inside cartDisplay #", e);
     dispatch(decrement(e.target.id));
   };
 
-  const handleAddition = (e) => {
-    console.log("e ##", e.target.id);
-    dispatch(increment(e.target.id));
+  const handleAddition = (objData) => {
+    dispatch(increment(objData));
   };
 
   const handleDelete = (e) => {
@@ -133,7 +133,7 @@ const CartDisplay = () => {
             -
           </PrdctQtyBtn>
           <QtyInputBox>{item.count}</QtyInputBox>
-          <PrdctQtyBtn id={item} onClick={handleAddition}>
+          <PrdctQtyBtn id={item} onClick={() => handleAddition(item)}>
             +
           </PrdctQtyBtn>
           = $<span>{item.totalPrice}</span>
