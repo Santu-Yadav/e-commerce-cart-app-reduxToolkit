@@ -97,11 +97,12 @@ const CartDisplay = () => {
 
   const handleSubtraction = (e) => {
     console.log("e inside cartDisplay #", e);
-    dispatch(decrement(e));
+    dispatch(decrement(e.target.id));
   };
 
   const handleAddition = (e) => {
-    dispatch(increment(e));
+    console.log("e ##", e.target.id);
+    dispatch(increment(e.target.id));
   };
 
   const handleDelete = (e) => {
@@ -132,7 +133,7 @@ const CartDisplay = () => {
             -
           </PrdctQtyBtn>
           <QtyInputBox>{item.count}</QtyInputBox>
-          <PrdctQtyBtn id={item.prodId} onClick={handleAddition}>
+          <PrdctQtyBtn id={item} onClick={handleAddition}>
             +
           </PrdctQtyBtn>
           = $<span>{item.totalPrice}</span>

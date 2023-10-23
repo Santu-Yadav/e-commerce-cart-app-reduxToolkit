@@ -43,10 +43,10 @@ export const cartSlice = createSlice({
     },
 
     decrement: (state, action) => {
-      console.log("action.payload in cartSlice #", action.payload.target.id);
+      console.log("action.payload in cartSlice #", action.payload);
       console.log(" state.objectData #", state.objectData);
       const findItem = state.objectData.find(
-        (item) => item.prodId === action.payload.target.id
+        (item) => item.prodId === action.payload
       );
       console.log("findItem inside decrement #", findItem);
       findItem.count -= 1;
