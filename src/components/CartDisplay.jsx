@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { increment } from "../reduxStore/slices/cartSlice";
+import { increment, decrement } from "../reduxStore/slices/cartSlice";
 
 const CartDisplayContainer = styled.div`
   display: flex;
@@ -97,6 +96,7 @@ const CartDisplay = () => {
   // }, [productData]);
 
   const handleSubtraction = (e) => {
+    console.log("e inside cartDisplay #", e);
     dispatch(decrement(e));
   };
 
