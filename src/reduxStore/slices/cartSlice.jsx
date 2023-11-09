@@ -46,6 +46,11 @@ export const cartSlice = createSlice({
       state.objectData = state.objectData.filter(
         (item) => item.prodId !== action.payload.prodId
       );
+
+      state.finalTotalAmount =
+        state.finalTotalAmount - action.payload.totalPrice;
+      state.finalTotalProductCount =
+        state.finalTotalProductCount - action.payload.count;
     },
 
     decrement: (state, action) => {
