@@ -42,6 +42,12 @@ export const cartSlice = createSlice({
       }
     },
 
+    remove: (state, action) => {
+      state.objectData = state.objectData.filter(
+        (item) => item.prodId !== action.payload.prodId
+      );
+    },
+
     decrement: (state, action) => {
       const findItem = state.objectData.find(
         (item) => item.prodId === action.payload
@@ -52,13 +58,9 @@ export const cartSlice = createSlice({
       state.finalTotalAmount -= findItem.price;
       state.finalTotalProductCount -= 1;
     },
-
-    delete: (state, action) => {
-      state.objectData.filter((item) => item.count !== 0)
-    },
   },
 });
 
-export const { increment, decrement, delete } = cartSlice.actions;
+export const { increment, decrement, remove } = cartSlice.actions;
 
 export default cartSlice.reducer;

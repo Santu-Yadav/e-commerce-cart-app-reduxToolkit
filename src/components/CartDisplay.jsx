@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { increment, decrement, delete } from "../reduxStore/slices/cartSlice";
+import { increment, decrement, remove } from "../reduxStore/slices/cartSlice";
 
 const CartDisplayContainer = styled.div`
   display: flex;
@@ -88,7 +88,7 @@ const CartDisplay = () => {
     );
     // Only update the state if the filteredObjectData is not empty.
     if (filteredObjectData.length !== 0) {
-      dispatch(delete)
+      // dispatch(remove)
       // setProductData((prevProductData) => ({
       //   ...prevProductData,
       //   objectData: cartOperation.objectData.filter((item) => item.count !== 0),
@@ -105,7 +105,9 @@ const CartDisplay = () => {
     dispatch(increment(objData));
   };
 
-  const handleDelete = (e) => {
+  const handleDelete = (objData) => {
+    dispatch(remove(objData));
+    //****************************************************
     // const deletedItem = productData.objectData.filter(
     //   (item) => item.prodId === e.target.id
     // );
@@ -137,7 +139,7 @@ const CartDisplay = () => {
             +
           </PrdctQtyBtn>
           = $<span>{item.totalPrice}</span>
-          <DeleteButton id={item.prodId} onClick={handleDelete}>
+          <DeleteButton id={item.prodId} onClick={() => handleDelete(item)}>
             Delete
           </DeleteButton>
         </div>
